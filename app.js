@@ -5,8 +5,13 @@ const mongo = require("./mongodb/mongodb.connect");
 console.log('coonect :', mongo.connect());
 
 app.use(express.json());
-app.use("/todos",todoRoutes);
-app.get("/", (req, res)=>{
+app.use("/todos", todoRoutes);
+
+app.use((error, req, res, next) => {
+    res.status(500).json({ message: error.message });
+});
+
+app.get("/", (req, res) => {
     res.json("Hello");
 });
 
