@@ -57,6 +57,16 @@ describe(endpointUrl, () => {
     }
   );
 
+  it("PUT " + endpointUrl+ ":todoId", async () => {
+    firstTodo.title = "newww title"
+    const response = await request(app)
+    .put(endpointUrl+firstTodo._id)
+    .send(firstTodo);
+    expect(response.statusCode).toBe(200);
+    // expect(response.body).toStrictEqual(firstTodo)
+    expect(response.body.title).toBe(firstTodo.title);
+    expect(response.body.done).toBe(firstTodo.done);
+  })
 
 })
 

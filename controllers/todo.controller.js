@@ -27,13 +27,39 @@ exports.getTodos = async (req, res, next) => {
 exports.getTodoById = async (req, res, next) => {
     try {
         const todo = await todoModel.findById(req.params.todoId);
-        if(todo){
+        if (todo) {
             res.status(200).json(todo);
 
-        }else{
+        } else {
             res.status(404).send();
         }
     } catch (err) {
+        next(err)
+    }
+
+};
+
+exports.updateTodo = async (req, res, next) => {
+    try {
+        // console.log("req.body.title ;",req.body.title)
+        const todo = await todoModel.findByIdAndUpdate(
+            req.params.todoId,
+            req.body,
+            {
+              new: true,
+              useFindAndModify: false
+            }
+          );
+        // const todo = await todoModel.findByIdAndUpdate({ "_id": req.body._id }, { $set: { "title": req.body.title } });
+        // console.log(todo)
+        if (todo) {
+            res.status(200).json(todo);
+        } else {
+            res.status(404).send();
+        }
+
+    } catch (err) {
+        console.log("errrprr",err)
         next(err)
     }
 
